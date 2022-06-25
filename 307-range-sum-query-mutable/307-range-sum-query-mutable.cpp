@@ -1,56 +1,74 @@
 class NumArray {
 public:
-    // Square Root Solution //
-    int segment[10001]={0};
+     // Segment Tree Solution //
+    
+    int segment[4*100000]={0};
     vector<int> temp;
     int n;
-    int seg_size;
     
-    void sqrt_preprocess(){
-        seg_size = sqrt(n);
-        int cur_seg = -1;
-        for(int i=0; i<n; i++){
-            if(i%seg_size == 0){
-                cur_seg++;
-            }
-            segment[cur_seg] += temp[i];
+    void build(int index, int low, int high) {
+        if(low == high){
+            segment[index] = temp[low];
+            return;
         }
+        
+        int mid = (low + high)/2;
+        
+        build(2*index + 1, low, mid);
+        build(2*index + 2, mid + 1, high);
+        
+        segment[index] = segment[2*index + 1] + segment[2*index + 2];
     }
     
+    void update_segment(int index, int low, int high, int id, int value){
+        
+        if(id > high || id < low) return;
+        
+        if(low >= id && high <= id){
+            segment[index] = value;
+            return;
+        }
+        
+        int mid = (high + low)/2;
+        
+        update_segment(2*index + 1, low, mid, id, value);
+        update_segment(2*index + 2, mid + 1, high, id, value);
+        
+        segment[index] = segment[2*index + 1] + segment[2*index + 2];
+        
+    }
+    
+    int query(int index, int low, int high, int l, int r){
+        if(low >= l && high <= r){
+            return segment[index];
+        }
+        if(high < l || low > r) return 0;
+        
+        int mid =(low + high)/2;
+        
+        int left = query(2*index + 1, low, mid, l, r);
+        int right = query(2*index + 2, mid + 1, high, l, r);
+        
+        return left + right;
+    }
+    
+        
     NumArray(vector<int>& nums) {
-        for(int x: nums){
+        for(auto x: nums){
             temp.push_back(x);
         }
         n = temp.size();
-        sqrt_preprocess();
+        build(0, 0, n-1);
     }
-    
+
     void update(int index, int val) {
-        int seg_no = index/seg_size;
-        segment[seg_no] = segment[seg_no] - temp[index] + val;
-        temp[index] = val;
+        update_segment(0, 0, n-1, index, val);
+    }
+
+    int sumRange(int l, int r) {    
+        return query(0, 0, n-1, l, r); 
     }
     
-    int sumRange(int l, int r) {    
-        int sum = 0;
-        
-        while( l<=r && l%seg_size != 0){
-            sum += temp[l];
-            l++;
-        }
-        
-        while(l+seg_size <= r){
-            sum += segment[l/seg_size];
-            l = l + seg_size;
-        }
-        
-        while(l<=r){
-            sum += temp[l];
-            l++;
-        }
-        
-        return sum; 
-    }
 };
 
 /**
