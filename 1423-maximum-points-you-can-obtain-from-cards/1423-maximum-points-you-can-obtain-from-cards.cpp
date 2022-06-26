@@ -2,6 +2,8 @@ class Solution {
 public:
     int maxScore(vector<int>& cardPoints, int k) {
         
+        ios::sync_with_stdio(false), cin.tie(NULL), cout.tie(0);
+        
         int n = cardPoints.size();
         int sum = 0;
         
