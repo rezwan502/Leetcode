@@ -2,46 +2,32 @@ class Solution {
 public:
     int maxScore(vector<int>& cardPoints, int k) {
         
-        int first = 0;
-        int last = 0;
         int n = cardPoints.size();
+        int sum = 0;
         
         for(int i=0; i<n; i++){
-            if(i<k){
-                first += cardPoints[i];
-            }
-            
-            if(i >= (n-k)){
-                last += cardPoints[i];
-            }
-            
+            sum += cardPoints[i];
         }
         
-        bool taken[n+1];
+        int ans = 0, window = 0;
         
-        int maxi = max(first,last);
-        int fr = first;
-        int lr = 0;
-        int m = n;
-       // cout << "M: "<< maxi << endl;
-        
-        if(n != k){
-            for(int i=0; i<n; i++){
-                if(k>0){
-                    fr = fr - cardPoints[k-1];
-                    lr = lr + cardPoints[m-1];
-                    int t = fr + lr;
-                    
-                  //  cout << fr << " " << lr <<" " << t << endl;
-                    
-                    maxi = max(maxi,t);
-                    
-                    k--;
-                    m--;
-                }
-            }    
+        for(int i=0; i<=n-k-1; i++){
+            window += cardPoints[i];
         }
         
-        return maxi;
+        //cout << "Sum: " << sum << endl;
+       // cout << "Window: " << window << endl;
+        
+        for(int i=n-k; i<n; i++){
+           // cout << "Diff: " << sum - window << endl; 
+            ans = max(ans, sum - window);
+            window -= cardPoints[i-(n-k)];
+            window += cardPoints[i];
+          //  cout << "Window: " << window << endl;
+        }
+        
+        ans = max(ans, sum - window);
+       
+        return ans;
     }
 };
