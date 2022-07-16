@@ -1,23 +1,28 @@
 class Trie {
 public:
-    
     struct Node{
         Node *nxt[26];
         bool isWord;
         bool pre;
-        Node(){
-            isWord = false;
-            pre = false;
-            for(int i=0; i<26; i++){
-                nxt[i] = NULL; 
-            }
-        }
     };
     
     Node *root;
+    Node memoryPool[300004];
+    int idx;
+    
+    Node* create_node(){
+        Node *temp = &memoryPool[idx++];
+        temp->isWord = false;
+        temp->pre = false;
+        for(int i=0; i<26; i++){
+            temp->nxt[i] = NULL; 
+        }
+        return temp;
+    }
     
     Trie() {
-         root = new Node();
+         idx = 0;
+         root = create_node();
     }
     
     void insert(string word) {
@@ -25,7 +30,7 @@ public:
         for(int i=0; i<word.length(); i++){
             int imap = word[i] - 'a';
             if(cur->nxt[imap] == NULL){
-                cur -> nxt[imap] = new Node();
+                cur -> nxt[imap] = create_node();
             }
             cur -> pre = true;
             cur = cur -> nxt[imap];
