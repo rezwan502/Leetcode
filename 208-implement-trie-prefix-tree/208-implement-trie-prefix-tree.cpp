@@ -7,7 +7,7 @@ public:
     };
     
     Node *root;
-    Node memoryPool[300004];
+    Node memoryPool[3*100000+1];
     int idx;
     
     Node* create_node(){
