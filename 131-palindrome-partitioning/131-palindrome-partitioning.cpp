@@ -1,14 +1,14 @@
 class Solution {
 public:
     
-    bool isPalindrome(string s, int start, int end){
+    bool isPalindrome(string &s, int start, int end){
         while(start<=end){
             if(s[start++] != s[end--]) return false;
         }
         return true;
     }
     
-    void partition(int idx, int len, string s, vector<string> pat, vector<vector<string>>& ans){
+    void partition(int idx, int len, string &s, vector<string> &pat, vector<vector<string>> &ans){
         if(idx == len){
             ans.push_back(pat);
             return;
