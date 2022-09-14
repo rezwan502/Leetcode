@@ -29,8 +29,6 @@ public:
                 }
             }
             if(odd <= 1) cnt++;
-            fq[node->val]--;
-            return;
         } 
          
         inOrder(node->left, fq);
