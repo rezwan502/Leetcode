@@ -15,7 +15,7 @@ public:
         //cout << root->val << " " << targetSum << endl;
         if (!root) return 0;
         if (!root->left && !root->right) return (targetSum - root->val ) == 0;
-        return isPathSumPossible(root->left, targetSum - root->val) | isPathSumPossible(root->right, targetSum - root->val);
+        return isPathSumPossible(root->left, targetSum - root->val) || isPathSumPossible(root->right, targetSum - root->val);
     }
     bool hasPathSum(TreeNode* root, int targetSum) {
         return isPathSumPossible(root, targetSum);
