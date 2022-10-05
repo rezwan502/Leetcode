@@ -11,7 +11,7 @@
  */
 class Solution {
 public:
-    /*
+    
     TreeNode* addOneRow(TreeNode* root, int val, int depth) {
         if (depth == 1) {
             TreeNode* newNode = new TreeNode(val);
@@ -29,10 +29,10 @@ public:
             if (depth - 1 == level) {
                 break;
             } else {
-                for(int i=0; i<Q.size(); i++) {
+                int sz = Q.size();
+                for(int i=0; i<sz; i++) {
                     TreeNode* cur = Q.front();
                     Q.pop();
-                    
                     if(cur->left) Q.push(cur->left);
                     if(cur->right) Q.push(cur->right);
                 }
@@ -42,7 +42,7 @@ public:
          while(!Q.empty()) {
             TreeNode* cur = Q.front();
             Q.pop();
-                    
+            
             TreeNode* left = cur->left;
             TreeNode* right = cur->right;
              
@@ -53,40 +53,5 @@ public:
         }
         
         return root;
-    } */
-    
-    TreeNode* addOneRow(TreeNode* root, int v, int d) {
-        if(d==1){
-            TreeNode *newnode = new TreeNode(v);
-            newnode->left=root;
-            return newnode;
-        }
-        
-        queue<TreeNode*> q;
-        q.push(root);
-    
-        int i=1;
-        while(!q.empty()){
-            i++;
-            if(i==d) break;
-            int size = q.size();
-            for(int i=0;i<size;i++){
-                TreeNode* temp = q.front();
-                q.pop();
-                if(temp->left) q.push(temp->left);
-                if(temp->right) q.push(temp->right); 
-            }
-        }
-        
-        int size=q.size();
-        for(int i=0;i<size;i++){
-            TreeNode* temp=q.front(); q.pop();
-            TreeNode* l = temp->left, *r = temp->right;
-            temp->left= new TreeNode(v);
-            temp->left->left=l;
-            temp->right= new TreeNode(v);
-            temp->right->right=r;
-        }
-        return root;
-    }
+    } 
 };
