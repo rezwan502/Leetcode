@@ -11,7 +11,7 @@
  */
 class Solution {
 public:
-    unordered_set<int> preValue;
+    set<int> preValue;
     bool findTarget(TreeNode* root, int k) {
         if (!root) return false;
         if (preValue.count(k-root->val)) return true;
