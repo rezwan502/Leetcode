@@ -1,32 +1,32 @@
 class Solution {
 public:
+    bool getDiff(string str, string temp) {
+        int diff = 0;
+        for(int i=0; i<str.length(); i++) {
+            if(str[i] != temp[i]) diff++;
+        }
+        return diff == 1;
+    }
     int minMutation(string start, string end, vector<string>& bank) {
         unordered_map<string, bool> isValid;
-        unordered_map<string, bool> isTaken;
-        for(auto x: bank) isValid[x] = true;
         
-        queue<string>Q;
-        Q.push(start);
+        queue<pair<string,int>>Q;
+        Q.push({start,0});
+        isValid[start] = true;
         
-        int step = 0;
         while(!Q.empty()) {
             int sz = Q.size();
             for(int i=0; i<sz; i++) {
-                string temp = Q.front();
+                pair<string,int> temp = Q.front();
                 Q.pop();
-                if (temp == end) return step;
-                for(int k=0; k<temp.length(); k++) {
-                    string c_temp = temp;
-                    for(int i='A'; i<='Z'; i++) {
-                        c_temp[k] = (char) i;
-                        if (isValid[c_temp] && !isTaken[c_temp]) {
-                            isTaken[c_temp] = true;
-                            Q.push(c_temp);
-                        }
+                if (temp.first == end) return temp.second;
+                for(auto x: bank) {
+                    if(isValid.find(x) == isValid.end() && getDiff(x,temp.first)) {
+                        Q.push({x,temp.second + 1});
+                        isValid[x] = true;
                     }
                 }
             }
-            step++;
         }
         
         return -1;
