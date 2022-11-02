@@ -1,6 +1,6 @@
 class Solution {
 public:
-    bool getDiff(string str, string temp) {
+    bool getDiff(string &str, string &temp) {
         int diff = 0;
         for(int i=0; i<8; i++) {
             if(str[i] != temp[i]) diff++;
